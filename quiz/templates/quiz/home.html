@@ -1,0 +1,100 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            width: 400px;
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 12px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        .error {
+            color: red;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Generate Your Quiz</h2>
+    <form method="post" action="{% url 'quiz' %}">
+        {% csrf_token %}
+        
+        <label>Subject:</label>
+        <select name="subject" required>
+            <option value="">Select a subject</option>
+            <option value="DBMS">DBMS</option>
+            <option value="DSA">DSA</option>
+            <option value="OS">Operating Systems</option>
+            <option value="CN">Computer Networks</option>
+        </select>
+
+        <label>Topic:</label>
+        <input type="text" name="topic" placeholder="e.g. SQL, Trees, Scheduling" required>
+
+        <label>Number of Questions:</label>
+        <input type="number" name="num_questions" min="1" max="20" value="5" required>
+
+        <label>Difficulty:</label>
+        <select name="difficulty" required>
+            <option value="">Select difficulty</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+
+        <label>Timer Duration:</label>
+        <select name="time_limit" required>
+            <option value="60">1 Minute</option>
+            <option value="120" selected>2 Minutes</option>
+            <option value="180">3 Minutes</option>
+            <option value="300">5 Minutes</option>
+        </select>
+
+        <button type="submit">Start Quiz</button>
+
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+    </form>
+</div>
+</body>
+</html>
